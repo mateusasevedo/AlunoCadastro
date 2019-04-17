@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1"
+		http-equiv="X-UA-Conpatible" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<title>Cadastro Aluno</title>
+
+</h:head>
+<h:body>
+	<div class="container">
+
+		<div class="navbar navbar-inverse">
+			<div class="navbar-brand" style="width: 100%; text-align: center;">Cadastro
+				de Aluno</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-xs-updated">
+				<h:form styleClass="form-horizontal">
+					<h:messages id="messages" style="color:red" globalOnly="false" />
+					<div class="mb-3">
+						<h:outputLabel value="ID:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.id}"
+							styleClass="form-control" />
+					</div>
+
+					<div class="mb-3">
+						<h:outputLabel value="Nome:" styleClass="control-label" />
+						<h:inputText id="itNome" value="#{alunoController.aluno.nome}"
+							styleClass="form-control">
+							<f:validateLength minimum="1" maximum="60" />
+						</h:inputText>
+						<h:message for="itNome" style="color:red" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="CPF:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.cpf}"
+							styleClass="form-control" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="CEP:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.endereco.cep}"
+							styleClass="form-control" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="Rua:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.endereco.rua}"
+							styleClass="form-control" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="Numero:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.endereco.numero}"
+							styleClass="form-control" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="Cidade:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.endereco.cidade}"
+							styleClass="form-control" />
+					</div>
+					<div class="mb-3">
+						<h:outputLabel value="Estado:" styleClass="control-label" />
+						<h:inputText value="#{alunoController.aluno.endereco.estado}"
+							styleClass="form-control" />
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-2 mb-3">
+							<h:outputLabel value="DDD:" styleClass="control-label" />
+							<h:inputText id="itCodigoArea"
+								value="#{alunoController.telefone.codigoArea}"
+								styleClass="form-control" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<h:outputLabel value="Número:" styleClass="control-label" />
+							<h:inputText id="itNumero"
+								value="#{alunoController.telefone.numero}"
+								styleClass="form-control" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 mb-3" style="padding-top: 10px;">
+							<h:commandButton value="Adicionar Número"
+								styleClass="btn btn-primary form-control"
+								actionListener="#{alunoController.adicionarTelefone}">
+								<f:ajax execute="itCodigoArea itNumero"
+									render="dtTelefone itCodigoArea itNumero" />
+							</h:commandButton>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<h:dataTable id="dtTelefone"
+								value="#{alunoController.aluno.listaTelefone}" var="obj"
+								styleClass="table table-striped table-hover">
+								<h:column>
+									<f:facet name="header">DDD</f:facet>
+									<h:outputLabel value="#{obj.codigoArea}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">Número</f:facet>
+									<h:outputLabel value="#{obj.numero}" />
+								</h:column>
+								<h:column>
+									<h:commandButton value="Remover" styleClass="btn btn-danger"
+										actionListener="#{alunoController.removerTelefone(obj)}" />
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="row">
+						<div class="col-md-3 mb-3">
+							<h:commandButton value="Incluir"
+								disabled="#{alunoController.aluno.id != null}"
+								actionListener="#{alunoController.incluir}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="col-md-3 mb-3">
+							<h:commandButton value="Alterar"
+								disabled="#{alunoController.aluno.id == null}"
+								actionListener="#{alunoController.alterar}"
+								styleClass="btn btn-default form-control">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="col-md-3 mb-3">
+							<h:commandButton value="Excluir"
+								disabled="#{alunoController.aluno.id == null}"
+								actionListener="#{alunoController.excluir}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control">
+								<f:ajax render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="col-md-3 mb-3">
+							<h:commandButton value="Limpar"
+								actionListener="#{alunoController.limpar}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control" />
+						</div>
+					</div>
+
+					<hr />
+				</h:form>
+
+				<h:form id="formDataTable" styleClass="form-horizontal">
+					<div class="md-3">
+
+						<h:dataTable value="#{alunoController.listaAluno}" var="obj"
+							styleClass="table table-striped table-hover">
+							<h:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputLabel value="#{obj.id}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:commandLink value="#{obj.nome}"
+									actionListener="#{alunoController.editar(obj)}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">CPF</f:facet>
+								<h:commandLink value="#{obj.cpf}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">CEP</f:facet>
+								<h:commandLink value="#{obj.endereco.cep}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Rua</f:facet>
+								<h:commandLink value="#{obj.endereco.rua}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Numero</f:facet>
+								<h:commandLink value="#{obj.endereco.numero}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Cidade</f:facet>
+								<h:commandLink value="#{obj.endereco.cidade}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Estado</f:facet>
+								<h:commandLink value="#{obj.endereco.estado}" />
+							</h:column>
+
+						</h:dataTable>
+					</div>
+				</h:form>
+
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>
